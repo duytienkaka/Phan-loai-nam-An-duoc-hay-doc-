@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <title>🍄 Kết quả - Phân loại nấm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --primary: #e74d3c;
+            --primary-2: #c0392b;
+            --bg-1: #fff5f5;
+            --bg-2: #ffffff;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --card: #ffffffcc;
+            --ring: #f1e3cf;
+            --accent: #ffe7d6;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            color: var(--ink);
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background:
+                radial-gradient(1000px 500px at 10% -10%, var(--bg-1) 0%, transparent 60%),
+                radial-gradient(1200px 700px at 110% 0%, #f1fff1 0%, transparent 65%),
+                linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 70%);
+        }
+
+        .wrap {
+            max-width: 980px;
+            margin: 0 auto
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 45%, #fff 0 28%, var(--primary) 28% 55%, var(--primary-2) 56% 100%);
+            position: relative;
+            box-shadow: 0 10px 24px #00000014, inset 0 -4px 10px #0000001a;
+        }
+
+        .logo:after {
+            content: "";
+            position: absolute;
+            left: 16px;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 14px 8px 0 0 #fff, 6px -2px 0 0 #fff
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 26px
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: max-content;
+            background: var(--card);
+            backdrop-filter: blur(6px);
+            border: 1px solid #e6e6e6;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 6px 20px #00000010;
+            margin: 16px 0;
+        }
+
+        .card h3 {
+            margin: 6px 0 12px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        @media (max-width:900px) {
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            border: 1px solid #eee;
+            padding: 8px 10px;
+            text-align: left
+        }
+
+        thead th {
+            background: #fafafa;
+            font-weight: 700
+        }
+
+        tbody tr:nth-child(odd) {
+            background: #fcfcfc
+        }
+
+        .ok {
+            color: #0a7;
+            font-weight: 700
+        }
+
+        .err {
+            color: #c00;
+            font-weight: 700
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 0;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: .2px;
+            user-select: none;
+            box-shadow: 0 10px 20px #00000016, inset 0 -2px 0 #00000010;
+            transition: transform .07s ease, filter .2s ease, box-shadow .2s ease;
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+            color: #fff
+        }
+
+        .btn-ghost {
+            background: #ffffff;
+            border: 1px solid #e7e7e7;
+            color: var(--ink)
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        /* Controls & pager cho bảng ID */
+        .tablekit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+            flex-wrap: wrap
+        }
+
+        .tablekit input[type=search] {
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd
+        }
+
+        .tablekit select {
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #fff
+        }
+
+        .pager {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+
+        .pager button {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        .pager button.active {
+            background: var(--accent);
+            font-weight: 800
+        }
+
+        .charts-row canvas {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <h1>Kết quả dự đoán</h1>
+        </div>
+
+        <div class="card">
+            <h3>📊 Thống kê</h3>
+            <div class="grid">
+                <div>
+                    <h4>Nhãn gốc</h4>
+                    [[counts_html]]
+                </div>
+                <div>
+                    <h4>Đã quy đổi tiếng Việt</h4>
+                    [[counts_vn_html]]
+                </div>
+            </div>
+            <div class="grid charts-row">
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="grid charts-row">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🆔 Danh sách ID</h3>
+            <p class="muted">Cột ID: <code>[[id_col]]</code></p>
+
+            <!-- thêm controls -->
+            <div class="tablekit">
+                <input id="searchBox" type="search" placeholder="Tìm ID hoặc 'Độc/Không độc'..." />
+                <label>Hiển thị
+                    <select id="perPage">
+                        <option>10</option>
+                        <option selected>25</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select> dòng/trang
+                </label>
+            </div>
+
+            <!-- bảng sẽ render bằng JS (có thể giữ [[ids_table_html]] làm fallback) -->
+            <div id="idsTable">[[ids_table_html]]</div>
+            <div id="pager" class="pager"></div>
+        </div>
+
+
+        <div class="card">
+            <h3>📥 Tải về & thao tác</h3>
+            <div class="row-actions">
+                <a class="btn btn-primary" href="data:text/csv;base64,[[csv_b64]]" download="mushroom_predictions.csv">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <path d="M7 10l5 5 5-5" />
+                        <path d="M12 4v10" />
+                    </svg>
+                    Tải kết quả (CSV)
+                </a>
+                <a class="btn btn-ghost" href="/">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 12l9-9 9 9" />
+                        <path d="M9 21V9h6v12" />
+                    </svg>
+                    Về trang chính
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Đồng bộ theme với trang index
+        const THEMES = {
+            Amanita: { primary: '#e74d3c', primary2: '#c0392b', bg1: '#fff5f5', bg2: '#ffffff', ink: '#0f172a', muted: '#64748b', card: '#ffffffcc', ring: '#f1e3cf', accent: '#ffe7d6' },
+            Forest: { primary: '#2e7d32', primary2: '#1b5e20', bg1: '#eefbf0', bg2: '#ffffff', ink: '#0b2310', muted: '#486055', card: '#ffffffcc', ring: '#e5f4e7', accent: '#ccf1d2' },
+            Midnight: { primary: '#0ea5e9', primary2: '#2563eb', bg1: '#0b1220', bg2: '#0f172a', ink: '#e5e7eb', muted: '#9aa4b2', card: '#0b1220cc', ring: '#1f2a44', accent: '#0ea5e91a' },
+            Lavender: { primary: '#8b5cf6', primary2: '#d946ef', bg1: '#fbf2ff', bg2: '#ffffff', ink: '#211631', muted: '#7a6b91', card: '#ffffffcc', ring: '#f3e8ff', accent: '#fdf2ff' },
+            Autumn: { primary: '#f59e0b', primary2: '#d97706', bg1: '#fff7ed', bg2: '#ffffff', ink: '#3a2a12', muted: '#8b735a', card: '#ffffffcc', ring: '#ffedd5', accent: '#fff2d8' }
+        };
+        function applyTheme(name) {
+            const t = THEMES[name] || THEMES.Amanita;
+            const r = document.documentElement.style;
+            r.setProperty('--primary', t.primary);
+            r.setProperty('--primary-2', t.primary2);
+            r.setProperty('--bg-1', t.bg1);
+            r.setProperty('--bg-2', t.bg2);
+            r.setProperty('--ink', t.ink);
+            r.setProperty('--muted', t.muted);
+            r.setProperty('--card', t.card);
+            r.setProperty('--ring', t.ring);
+            r.setProperty('--accent', t.accent);
+        }
+        applyTheme(localStorage.getItem('mushroom_theme') || 'Amanita');
+    </script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // dữ liệu đếm do server chèn
+        const COUNTS = [[counts_json]];               // vd: {"p":501,"e":499} hoặc {1:...,0:...}
+        const nP = COUNTS['p'] ?? COUNTS[1] ?? 0;
+        const nE = COUNTS['e'] ?? COUNTS[0] ?? 0;
+
+        // Cột
+        new Chart(document.getElementById('barChart').getContext('2d'), {
+            type: 'bar',
+            data: { labels: ['Độc', 'Không độc'], datasets: [{ label: 'Số lượng', data: [nP, nE] }] },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+            }
+        });
+
+        // Tròn
+        new Chart(document.getElementById('pieChart').getContext('2d'), {
+            type: 'pie',
+            data: { labels: ['Độc', 'Không độc'], datasets: [{ data: [nP, nE] }] },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }
+            }
+        });
+    </script>
+
+    <script>
+        // Lấy dữ liệu ID từ server
+        const IDS_POISON = [[ids_poison_json]];   // mảng ID nấm độc
+        const IDS_EDIBLE = [[ids_edible_json]];   // mảng ID nấm không độc
+
+        // Gom dữ liệu thành mảng bản ghi cho bảng
+        const rows = [
+            ...IDS_POISON.map(x => ({ id: String(x), type: 'Độc' })),
+            ...IDS_EDIBLE.map(x => ({ id: String(x), type: 'Không độc' })),
+        ];
+
+        // Trạng thái phân trang/tìm kiếm/sắp xếp
+        let state = { q: '', sortKey: 'id', sortDir: 'asc', page: 1, perPage: 25 };
+        const elTable = document.getElementById('idsTable');
+        const elPager = document.getElementById('pager');
+
+        function render() {
+            // 1) Lọc
+            const q = state.q.trim().toLowerCase();
+            let filtered = rows.filter(r =>
+                r.id.toLowerCase().includes(q) || r.type.toLowerCase().includes(q)
+            );
+
+            // 2) Sắp xếp
+            filtered.sort((a, b) => {
+                const k = state.sortKey, va = a[k], vb = b[k];
+                if (va < vb) return state.sortDir === 'asc' ? -1 : 1;
+                if (va > vb) return state.sortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            // 3) Phân trang
+            const total = filtered.length;
+            const pages = Math.max(1, Math.ceil(total / state.perPage));
+            if (state.page > pages) state.page = pages;
+            const start = (state.page - 1) * state.perPage;
+            const pageRows = filtered.slice(start, start + state.perPage);
+
+            // 4) Render bảng
+            let html = `<table>
+      <thead><tr>
+        <th data-k="id" style="cursor:pointer">ID</th>
+        <th data-k="type" style="cursor:pointer">Loại</th>
+      </tr></thead><tbody>`;
+            if (pageRows.length === 0) {
+                html += `<tr><td colspan="2"><span class="muted">Không có dữ liệu</span></td></tr>`;
+            } else {
+                for (const r of pageRows) {
+                    html += `<tr><td>${r.id}</td><td class="${r.type === 'Độc' ? 'err' : 'ok'}">${r.type}</td></tr>`;
+                }
+            }
+            html += `</tbody></table>`;
+            elTable.innerHTML = html;
+
+            // Click sắp xếp
+            elTable.querySelectorAll('th[data-k]').forEach(th => {
+                th.onclick = () => {
+                    const k = th.getAttribute('data-k');
+                    if (state.sortKey === k) { state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc'; }
+                    else { state.sortKey = k; state.sortDir = 'asc'; }
+                    render();
+                };
+            });
+
+            // 5) Render pager
+            let phtml = '';
+            for (let i = 1; i <= pages; i++) {
+                phtml += `<button class="${i === state.page ? 'active' : ''}">${i}</button>`;
+            }
+            elPager.innerHTML = phtml;
+            Array.from(elPager.children).forEach((btn, idx) => btn.onclick = () => { state.page = idx + 1; render(); });
+        }
+
+        // Sự kiện điều khiển
+        document.getElementById('searchBox').oninput = e => { state.q = e.target.value; state.page = 1; render(); };
+        document.getElementById('perPage').onchange = e => { state.perPage = parseInt(e.target.value, 10) || 25; state.page = 1; render(); };
+
+        // Khởi tạo
+        render();
+    </script>
+
+</body>
+
+</html>
