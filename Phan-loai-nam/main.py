@@ -10,8 +10,8 @@ import joblib
 # ===================== CẤU HÌNH =====================
 HOST = "127.0.0.1"
 PORT = 8000
-MODEL_PATH = "mushroom_pipeline.joblib"
-TEMPLATES_DIR = Path("templates")
+MODEL_PATH = "Phan-loai-nam\\mushroom_pipeline.joblib"
+TEMPLATES_DIR = Path("Phan-loai-nam\\templates")
 INDEX_TMPL = TEMPLATES_DIR / "index.html"
 RESULT_TMPL = TEMPLATES_DIR / "result.html"
 # ====================================================
@@ -31,7 +31,6 @@ def load_template(path: Path) -> str:
         return f"<h1>500</h1><p>Không đọc được template {path}: {e}</p>"
 
 def render_template(template_str: str, **kwargs) -> str:
-    # Thay token [[NAME]] bằng giá trị
     html = template_str
     for k, v in kwargs.items():
         html = html.replace(f"[[{k}]]", str(v))
