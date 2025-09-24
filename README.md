@@ -173,7 +173,7 @@ PR/Issue hoan nghênh: thêm API JSON `/api/predict`, virtual scroll cho bảng 
 > ![Kết quả](docs/screenshot-result.png)
 > ```
 
-
+---
 ## 👥 Nhóm thực hiện
 - **Phạm Đức Duy Tiến**  
 - **Dương Văn Việt**  
